@@ -1,0 +1,12 @@
+---
+samba_os_supported: false
+samba_skip_defaults: false
+
+samba_packages:
+  - samba
+  - samba-common-tools
+
+samba: {}
+samba_defaults: {}
+
+samba_domain: 'example.com'

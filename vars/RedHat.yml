@@ -1,0 +1,37 @@
+---
+samba_packages:
+  - samba
+  - samba-common-tools
+
+samba_service: "smb"
+
+samba_manage_service: ""
+samba_allow_reload: ""
+
+samba_defaults:
+  workgroup: "EXAMPLE"
+  security: "ads"
+  realm: "EXAMPLE.COM"
+  passdb_backend: "tdbsam"
+  log_level: "4"
+  log_file: "/var/log/samba/log.%M"
+  load_printers: "no"
+  client_min_protocol: "SMB2_02"
+  kerberos_method: "system keytab"
+  vfs_objects: "acl_xattr"
+  map_acl_inherit: "yes"
+  store_dos_attributes: "yes"
+  idmap_config_*_:_backend: "tdb"
+  idmap_config_*_:_range: "2000001-2999999"
+  IDMAP_CONFIG_DOMAIN:
+    idmap_config_EXAMPLE_:_backend: "ad"
+    idmap_config_EXAMPLE_:_schema_mode: "rfc2307"
+    idmap_config_EXAMPLE_:_range: "1000-2000000"
+  include: ""
+
+samba_os_supported: true
+
+samba_config_file: "/etc/samba/smb.conf"
+samba_config_owner: "root"
+samba_config_group: "root"
+samba_config_mode: "0644"

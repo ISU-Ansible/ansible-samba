@@ -1,0 +1,30 @@
+{#- Body Options #}
+{% macro body_option(key,override) -%}
+{%   set value = undefined %}
+{%   if override is defined %}
+{%     set value = override %}
+{%   elif samba[key] is defined %}
+{%     set value = samba[key] %}
+{%   elif samba_defaults[key] is defined and samba_skip_defaults != true %}
+{%     set value = samba_defaults[key] %}
+{%   endif %}
+{{ render_option(key,value) -}}
+{%- endmacro %}
+
+{#- Render Options Jinja Template #}
+{% macro render_option(key,value,indent=false) -%}
+{%   if value is defined %}
+{%     if indent == true %}  {% endif %}
+{%     if value is string or value is number %}
+{{ key | replace("_"," ") }} = {{ value }}
+{%     elif value is mapping %}
+{%       for k,v in value.iteritems() %}
+{{ k | replace("_"," ") }} = {{ v }}
+{%       endfor %}
+{%     else %}
+{%       for i in value %}
+{{ key | replace("_"," ") }} = {{ i }}
+{%       endfor %}
+{%     endif %}
+{%   endif %}
+{%- endmacro %}

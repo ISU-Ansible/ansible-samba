@@ -1,0 +1,21 @@
+{% from 'macros/macros.j2' import body_option,render_option with context -%}
+#=====
+# {{ ansible_managed }}
+#=====
+
+[global]
+{{ body_option("workgroup",samba_workgroup) -}}
+{{ body_option("security",samba_security) -}}
+{{ body_option("realm",samba_realm) -}}
+{{ body_option("passdb_backend",samba_passdb_backend) -}}
+{{ body_option("log_level",samba_log_level) -}}
+{{ body_option("load_printers",samba_load_printers) -}}
+{{ body_option("client_min_protocol",samba_client_min_protocol) -}}
+{{ body_option("kerberos_method",samba_kerberos_method) -}}
+{{ body_option("vfs_objects",samba_vfs_objects) -}}
+{{ body_option("map_acl_inherit",samba_map_acl_inherit) -}}
+{{ body_option("store_dos_attributes",samba_store_dos_attributes) -}}
+{{ body_option("idmap_config_*_:_backend",samba_idmap_config_default_backend) -}}
+{{ body_option("idmap_config_*_:_range",samba_config_default_range) -}}
+{{ body_option("IDMAP_CONFIG_DOMAIN",samba_EXAMPLE_settings) -}}
+{{ body_option("include",samba_include) -}}

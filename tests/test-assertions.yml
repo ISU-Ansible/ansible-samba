@@ -1,0 +1,39 @@
+---
+- hosts: localhost
+  remote_user: root
+
+  vars:
+    samba:
+      workgroup: "WTF"
+      realm: "WTF.COM"
+      log_level: "6"
+      IDMAP_CONFIG_DOMAIN:
+        idmap_config_WTF_backend: "ad"
+        idmap_config_WTF_schema_mode: "rfc2307"
+        idmap_config_WTF_range: "1000-2000000"
+      include: "/etc/samba/something.conf"
+
+
+  roles:
+    - role_under_test
+
+  tasks:
+    - name: "[Test] Does Configuration File Exist?"
+      stat:
+        path: "{{samba_config_file}}"
+      register: samba_config
+
+    - name: "[Test] Test File Defaults"
+      shell: "cat {{samba_config_file}}"
+      when: samba_config.stat.exists == True
+      register: samba_config_contents
+
+    - debug:
+        var: samba_config_contents
+
+    - assert:
+        that:
+          - "samba_config_contents.rc == 0"
+          - "samba_config_contents.stdout.find('WTF.COM')"
+          - "samba_config_contents.stdout.find('rfc2307')"
+          - "realmd_config_contents.stdout.find('something.conf')"

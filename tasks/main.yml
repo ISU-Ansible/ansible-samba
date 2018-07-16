@@ -1,0 +1,56 @@
+---
+- name: SAMBA | Include OS-specific variables.
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}_{{ ansible_distribution_version | replace('.','_') }}.yml"
+    - "{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.yml"
+    - "{{ ansible_distribution }}.yml"
+    - "{{ ansible_os_family }}_{{ ansible_distribution_version | replace('.','_') }}.yml"
+    - "{{ ansible_os_family }}_{{ ansible_distribution_major_version }}.yml"
+    - "{{ ansible_os_family }}_{{ ansible_distribution }}_{{ ansible_distribution_version | replace('.','_') }}.yml"
+    - "{{ ansible_os_family }}_{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.yml"
+    - "{{ ansible_os_family }}.yml"
+    - "default.yml"
+  tags:
+    - samba
+
+- name: SAMBA | Set service facts
+  set_fact:
+    samba_manage_service: "{{ false if ansible_virtualization_type == 'docker' else true }}"
+    samba_allow_reload: "{{ false if ansible_virtualization_type == 'docker' else true }}"
+
+- name: SAMBA | Assert that OS is supported
+  assert:
+    that: samba_os_supported == true
+  tags:
+    - samba
+
+- name: SAMBA | Install Packages
+  package:
+    name: "{{ item }}"
+    state: installed
+  with_items: "{{ samba_packages }}"
+  tags:
+    - samba
+
+- name: SAMBA | Configure service
+  template:
+    src: samba_conf.j2
+    dest: "{{ samba_config_file }}"
+    owner: "{{ samba_config_owner }}"
+    group: "{{ samba_config_group }}"
+    mode: "{{ samba_config_mode }}"
+  tags:
+    - samba
+
+- name: Ensure samba service is running & enabled
+  service:
+    name: "{{ samba_service }}"
+    state: started
+    enabled: yes
+
+- name: SAMBA| Register that this role has run
+  set_fact: _has_run=true
+  when: samba_has_run is not defined
+  tags:
+    - samba
