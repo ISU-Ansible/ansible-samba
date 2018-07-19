@@ -1,0 +1,25 @@
+galaxy_info:
+  author: Levi Baber
+  description: A highly configurable role for installing and configuring SAMBA.
+  company: Iowa State University
+
+  issue_tracker_url: https://github.com/ISU-Ansible/ansible-samba/issues
+
+  license: GPLv2
+
+  min_ansible_version: 1.2
+
+  platforms:
+    - name: Fedora
+      versions:
+        - all
+    - name: EL
+      versions:
+        - 7
+
+  galaxy_tags:
+    - samba
+
+#dependencies:
+#  - ISU-Ansible.sssd
+#  - ISU-Ansible.kerberos

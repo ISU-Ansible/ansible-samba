@@ -1,0 +1,14 @@
+---
+#*
+#* ## Handlers
+#*
+#* ### Restart SAMBA
+#*
+#* Restarts the samba Service
+
+
+- name: Restart SAMBA
+  service:
+    name: "{{ samba_service }}"
+    state: restarted
+  when: samba_allow_restart
