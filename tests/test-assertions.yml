@@ -7,10 +7,6 @@
       workgroup: "WTF"
       realm: "WTF.COM"
       log_level: "6"
-      IDMAP_CONFIG_DOMAIN:
-        idmap_config_WTF_backend: "ad"
-        idmap_config_WTF_schema_mode: "rfc2307"
-        idmap_config_WTF_range: "1000-2000000"
       include: "/etc/samba/something.conf"
 
 
