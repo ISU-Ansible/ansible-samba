@@ -21,12 +21,6 @@ samba_defaults:
   vfs_objects: "acl_xattr"
   map_acl_inherit: "yes"
   store_dos_attributes: "yes"
-  idmap_config_*_:_backend: "tdb"
-  idmap_config_*_:_range: "2000001-2999999"
-  IDMAP_CONFIG_DOMAIN:
-    idmap_config_EXAMPLE_:_backend: "ad"
-    idmap_config_EXAMPLE_:_schema_mode: "rfc2307"
-    idmap_config_EXAMPLE_:_range: "1000-2000000"
   include: ""
 
 samba_os_supported: true
